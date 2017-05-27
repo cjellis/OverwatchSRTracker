@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Overwatch SR Tracker</title>
+
+    <link href="/static/libraries/bootstrap/bootstrap.min.css">
+
+    <script src="/static/libraries/angular/angular.min.js"></script>
+    <script src="/static/libraries/d3/d3.js"></script>
+    <script src="/static/js/app.js"></script>
+
+    <style>
+        body {
+            text-align: center;
+        }
+
+/* tell the SVG path to be a thin blue line without any area fill */
+        path {
+            stroke: steelblue;
+            stroke-width: 1;
+            fill: none;
+        }
+
+        .axis {
+          shape-rendering: crispEdges;
+        }
+
+        .x.axis line {
+          stroke: lightgrey;
+        }
+
+        .x.axis .minor {
+          stroke-opacity: .5;
+        }
+
+        .x.axis path {
+          display: none;
+        }
+
+        .y.axis line, .y.axis path {
+          fill: none;
+          stroke: #000;
+        }
+    </style>
+</head>
+<body ng-app="owsr" ng-controller="mainController">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+            <div class="col-md-8 col-sm-8 col-xs-10">
+                <h1>Overwatch SR Tracker</h1>
+                <div>
+                    User:
+                    <select ng-model="user">
+                        <option ng-repeat="user in users" value="{{user}}">{{user}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+            <div class="col-md-8 col-sm-8 col-xs-10">
+                <div>
+                    Type:
+                    <select ng-model="gameType">
+                        <option ng-repeat="type in types" value="{{type}}">{{type}}</option>
+                    </select>
+                </div>
+                <div>
+                    Map:
+                    <select ng-model="gameMap">
+                        <option ng-repeat="map in maps[gameType]" value="{{map}}">{{map}}</option>
+                    </select>
+                </div>
+                <div>
+                    Characters:
+                    <select multiple ng-model="gameCharacters">
+                        <option ng-repeat="character in characters" value="{{character}}">{{character}}</option>
+                    </select>
+                </div>
+                <div>
+                    Win/Loss/Draw:
+                    <select ng-model="gameResult">
+                        <option value="win">Win</option>
+                        <option value="loss">Loss</option>
+                        <option value="draw">Draw</option>
+                    </select>
+                </div>
+                <div>
+                    Post Game SR:
+                    <input type="number" ng-model="gameSR">
+                </div>
+                <div>
+                    Notes:
+                    <input type="text" ng-model="gameNotes">
+                </div>
+                <div>
+                    <button ng-click="print()">Print</button>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+        </div>
+
+         <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+            <div class="col-md-8 col-sm-8 col-xs-10">
+                <div>
+                    <button ng-click="showGraph()" ng-show="user">Show Graph</button>
+                </div>
+
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+        </div>
+    </div>
+
+<svg width="960" height="500"></svg>
+</body>
+</html>

@@ -1,4 +1,9 @@
 var owsr = angular.module('owsr', [])
+    .filter('arrayToList', function(){
+        return function(arr) {
+            return arr.join(', ');
+        }
+    })
     .controller('mainController', ['$scope', '$http', function ($scope, $http) {
         $scope.users = ['craig', 'josh'];
         $scope.types = ['Assault', 'Escort', 'Hybrid', 'Control'];
@@ -52,10 +57,16 @@ var owsr = angular.module('owsr', [])
                   "time": $scope.time
               }
             }).then(function success(response) {
-              alert("Success!")
+              alert("Success!");
+              $scope.load();
             }, function error(response){
               alert('Error!')
             })
+        };
+
+        $scope.load = function () {
+          $scope.showEntries();
+          $scope.showGraph();
         };
 
         $scope.showGraph = function () {
@@ -67,6 +78,7 @@ var owsr = angular.module('owsr', [])
                 }
             }).then(function success(response){
                console.log(response);
+               d3.selectAll("svg > *").remove();
                sr = [];
                i = 0;
                response["data"]["results"].forEach(function (res) {

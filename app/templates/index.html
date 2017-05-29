@@ -15,7 +15,6 @@
             text-align: center;
         }
 
-/* tell the SVG path to be a thin blue line without any area fill */
         path {
             stroke: steelblue;
             stroke-width: 1;
@@ -42,6 +41,18 @@
           fill: none;
           stroke: #000;
         }
+
+        table {
+            border-collapse: collapse;
+            border-radius: 5px;
+            width: 50%;
+            margin: 0px auto;
+            float: none;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
     </style>
 </head>
 <body ng-app="owsr" ng-controller="mainController">
@@ -53,7 +64,7 @@
                 <h1>Overwatch SR Tracker</h1>
                 <div class="form-group">
                     <label for="userSel">User:</label>
-                    <select class="form-control" ng-model="user" id="userSel">
+                    <select class="form-control" ng-model="user" id="userSel" ng-change="load()">
                         <option ng-repeat="user in users" value="{{user}}">{{user}}</option>
                     </select>
                 </div>
@@ -85,9 +96,9 @@
                 <div class="form-group">
                     <label for="resSel">Win/Loss/Draw:</label>
                     <select class="form-control" ng-model="gameResult" id="resSel">
-                        <option value="win">Win</option>
-                        <option value="loss">Loss</option>
-                        <option value="draw">Draw</option>
+                        <option value="Win">Win</option>
+                        <option value="Loss">Loss</option>
+                        <option value="Draw">Draw</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -105,25 +116,6 @@
             <div class="col-md-2 col-sm-2 col-xs-1"></div>
         </div>
 
-         <div class="row">
-            <div class="col-md-2 col-sm-2 col-xs-1"></div>
-            <div class="col-md-8 col-sm-8 col-xs-10">
-                <div>
-                    <button class="btn btn-default" ng-click="showGraph()" ng-show="user">Show Graph</button>
-                </div>
-
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-1"></div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 col-sm-2 col-xs-1"></div>
-            <div class="col-md-8 col-sm-8 col-xs-10">
-                <div>
-                    <button class="btn btn-default" ng-click="showEntries()" ng-show="user">Show Entries</button>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-1"></div>
-        </div>
         <div class="row" ng-show="showEntries">
             <div class="col-md-2 col-sm-2 col-xs-1"></div>
             <div class="col-md-8 col-sm-8 col-xs-10">
@@ -156,7 +148,7 @@
                     </tr>
                     <tr ng-repeat="entry in entries" ng-hide="$first">
                         <td>
-                            {{entry.time}}
+                            {{entry.time | date:'MM-dd-yyyy HH:mm'}}
                         </td>
                         <td>
                             {{entry.type}}
@@ -165,7 +157,7 @@
                             {{entry.map}}
                         </td>
                         <td>
-                            {{entry.characters}}
+                            {{entry.characters|arrayToList}}
                         </td>
                         <td>
                             {{entry.result}}

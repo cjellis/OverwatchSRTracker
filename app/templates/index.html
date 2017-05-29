@@ -51,9 +51,9 @@
             <div class="col-md-2 col-sm-2 col-xs-1"></div>
             <div class="col-md-8 col-sm-8 col-xs-10">
                 <h1>Overwatch SR Tracker</h1>
-                <div>
-                    User:
-                    <select ng-model="user">
+                <div class="form-group">
+                    <label for="userSel">User:</label>
+                    <select class="form-control" ng-model="user" id="userSel">
                         <option ng-repeat="user in users" value="{{user}}">{{user}}</option>
                     </select>
                 </div>
@@ -64,42 +64,42 @@
         <div class="row">
             <div class="col-md-2 col-sm-2 col-xs-1"></div>
             <div class="col-md-8 col-sm-8 col-xs-10">
-                <div>
-                    Type:
-                    <select ng-model="gameType">
+                <div class="form-group">
+                    <label for="typeSel">Type:</label>
+                    <select class="form-control" ng-model="gameType" id="typeSel">
                         <option ng-repeat="type in types" value="{{type}}">{{type}}</option>
                     </select>
                 </div>
-                <div>
-                    Map:
-                    <select ng-model="gameMap">
+                <div class="form-group">
+                    <label for="mapSel">Map:</label>
+                    <select class="form-control" ng-model="gameMap" id="mapSel">
                         <option ng-repeat="map in maps[gameType]" value="{{map}}">{{map}}</option>
                     </select>
                 </div>
-                <div>
-                    Characters:
-                    <select multiple ng-model="gameCharacters">
+                <div class="form-group">
+                    <label for="charSel">Characters:</label>
+                    <select class="form-control" multiple ng-model="gameCharacters" id="charSel">
                         <option ng-repeat="character in characters" value="{{character}}">{{character}}</option>
                     </select>
                 </div>
-                <div>
-                    Win/Loss/Draw:
-                    <select ng-model="gameResult">
+                <div class="form-group">
+                    <label for="resSel">Win/Loss/Draw:</label>
+                    <select class="form-control" ng-model="gameResult" id="resSel">
                         <option value="win">Win</option>
                         <option value="loss">Loss</option>
                         <option value="draw">Draw</option>
                     </select>
                 </div>
-                <div>
-                    Post Game SR:
-                    <input type="number" ng-model="gameSR">
+                <div class="form-group">
+                    <label for="srSel">Post Game SR:</label>
+                    <input type="number" ng-model="gameSR" id="srSel">
+                </div>
+                <div class="form-group">
+                    <label for="notesSel">Notes:</label>
+                    <input type="text" ng-model="gameNotes" id="notesSel">
                 </div>
                 <div>
-                    Notes:
-                    <input type="text" ng-model="gameNotes">
-                </div>
-                <div>
-                    <button ng-click="print()">Print</button>
+                    <button class="btn btn-default" ng-click="addEntry()">Add Entry</button>
                 </div>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-1"></div>
@@ -109,12 +109,82 @@
             <div class="col-md-2 col-sm-2 col-xs-1"></div>
             <div class="col-md-8 col-sm-8 col-xs-10">
                 <div>
-                    <button ng-click="showGraph()" ng-show="user">Show Graph</button>
+                    <button class="btn btn-default" ng-click="showGraph()" ng-show="user">Show Graph</button>
                 </div>
 
             </div>
             <div class="col-md-2 col-sm-2 col-xs-1"></div>
         </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+            <div class="col-md-8 col-sm-8 col-xs-10">
+                <div>
+                    <button class="btn btn-default" ng-click="showEntries()" ng-show="user">Show Entries</button>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+        </div>
+        <div class="row" ng-show="showEntries">
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+            <div class="col-md-8 col-sm-8 col-xs-10">
+                <table>
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Game Type
+                        </th>
+                        <th>
+                            Map
+                        </th>
+                        <th>
+                            Characters
+                        </th>
+                        <th>
+                            Result
+                        </th>
+                        <th>
+                            SR Change
+                        </th>
+                        <th>
+                            Post Game SR
+                        </th>
+                        <th>
+                            Notes
+                        </th>
+                    </tr>
+                    <tr ng-repeat="entry in entries" ng-hide="$first">
+                        <td>
+                            {{entry.time}}
+                        </td>
+                        <td>
+                            {{entry.type}}
+                        </td>
+                        <td>
+                            {{entry.map}}
+                        </td>
+                        <td>
+                            {{entry.characters}}
+                        </td>
+                        <td>
+                            {{entry.result}}
+                        </td>
+                        <td>
+                            {{entry.sr_change}}
+                        </td>
+                        <td>
+                            {{entry.sr}}
+                        </td>
+                        <td>
+                            {{entry.notes}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+        </div>
+
     </div>
 
 <svg width="960" height="500"></svg>

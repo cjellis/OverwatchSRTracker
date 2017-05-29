@@ -36,20 +36,9 @@ var owsr = angular.module('owsr', [])
             "Zenyatta"
         ];
 
-        $scope.print = function () {
-            $scope.time = new Date();
-            console.log($scope.gameType);
-            console.log($scope.gameMap);
-            console.log($scope.gameCharacters);
-            console.log($scope.gameResult);
-            console.log($scope.gameSR);
-            console.log($scope.gameNotes);
-            console.log($scope.time);
-            $scope.addEntry();
-        };
-
         $scope.addEntry = function () {
-          $http({
+            $scope.time = new Date();
+            $http({
               method: 'POST',
               url: '/addEntry',
               data: {
@@ -62,11 +51,11 @@ var owsr = angular.module('owsr', [])
                   "notes": $scope.gameNotes,
                   "time": $scope.time
               }
-          }).then(function success(response) {
+            }).then(function success(response) {
               alert("Success!")
-          }, function error(response){
+            }, function error(response){
               alert('Error!')
-          })
+            })
         };
 
         $scope.showGraph = function () {
@@ -134,6 +123,21 @@ var owsr = angular.module('owsr', [])
                       .attr("d", line);
 
 
+            }, function error(response) {
+
+            });
+        };
+
+        $scope.showEntries = function () {
+            $http({
+                method: 'POST',
+                url: '/getData',
+                data: {
+                    "user": $scope.user
+                }
+            }).then(function success(response){
+                console.log(response);
+                $scope.entries = response["data"]["results"]
             }, function error(response) {
 
             });

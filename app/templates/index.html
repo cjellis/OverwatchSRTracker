@@ -88,29 +88,19 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
+            <li ng-class="page==1 ? 'active' : ''"><a href="#" ng-click="page=1">Result Entry<span class="sr-only">(current)</span></a></li>
+            <li ng-class="page==2 ? 'active' : ''"><a href="#" ng-click="page=2">Table</a></li>
+            <li ng-class="page==3 ? 'active' : ''"><a href="#" ng-click="page=3">Graph</a></li>
+            <li ng-class="page==4 ? 'active' : ''"><a href="#" ng-click="page=4">Export</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Dashboard</h1>
-
-            <h2 class="sub-header">Enter Result</h2>
-            <div class="form-entry">
+            <div ng-show="page == 1">
+          <h1 class="page-header">Enter Result</h1>
+                <div ng-hide="user">
+                    Please select a user!
+                </div>
+            <div class="form-entry" ng-show="user">
                 <label for="typeSel">Type:</label>
                 <select class="form-control" ng-model="gameType" id="typeSel" required autofocus>
                     <option ng-repeat="type in types" value="{{type}}">{{type}}</option>
@@ -136,7 +126,9 @@
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="addEntry()">Add Result</button>
             </div>
-          <h2 class="sub-header">Entry Table</h2>
+            </div>
+            <div ng-show="page == 2">
+          <h1 class="page-header">Entry Table</h1>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -181,9 +173,16 @@
               </tbody>
             </table>
           </div>
-
-            <h2 class="sub-header">SR Graph</h2>
+            </div>
+            <div ng-show="page == 3">
+            <h1 class="page-header">SR Graph</h1>
             <svg width="960" height="500"></svg>
+                </div>
+            <div ng-show="page == 4">
+            <h1 class="page-header">Export</h1>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="exportData()">Set Up Export</button>
+                <a href="{{jsonUrl}}" download="results.json" ng-show="jsonUrl">Download</a>
+                </div>
         </div>
       </div>
     </div>

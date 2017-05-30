@@ -1,10 +1,19 @@
 var owsr = angular.module('owsr', [])
+    .config( [
+        '$compileProvider',
+        function( $compileProvider )
+        {
+            $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|data|chrome-extension):/);
+            // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+        }
+    ])
     .filter('arrayToList', function(){
         return function(arr) {
             return arr.join(', ');
         }
     })
     .controller('mainController', ['$scope', '$http', function ($scope, $http) {
+        $scope.page = 1;
         $scope.users = ['craig', 'josh'];
         $scope.types = ['Assault', 'Escort', 'Hybrid', 'Control'];
         $scope.maps = {
@@ -154,5 +163,11 @@ var owsr = angular.module('owsr', [])
             }, function error(response) {
 
             });
-        }
+        };
+
+        $scope.exportData = function () {
+              var jsonData = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({"entries":$scope.entries}));
+
+              $scope.jsonUrl = 'data:' + jsonData;
+        };
     }]);

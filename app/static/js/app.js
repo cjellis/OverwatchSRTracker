@@ -58,13 +58,14 @@ var owsr = angular.module('owsr', [])
               }
             }).then(function success(response) {
               alert("Success!");
-              $scope.load();
+              $scope.load($scope.user);
             }, function error(response){
               alert('Error!')
             })
         };
 
-        $scope.load = function () {
+        $scope.load = function (user) {
+            $scope.user = user;
           $scope.showEntries();
           $scope.showGraph();
         };

@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Overwatch SR Tracker</title>
 
-    <link href="/static/libraries/bootstrap/bootstrap.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <script src="/static/libraries/angular/angular.min.js"></script>
-    <script src="/static/libraries/d3/d3.js"></script>
-    <script src="/static/js/app.js"></script>
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/static/css/app.css">
 
     <style>
         body {
@@ -57,128 +59,145 @@
 </head>
 <body ng-app="owsr" ng-controller="mainController">
 
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Overwatch SR Tracker</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" ng-click="load('craig')">Craig</a></li>
+            <li><a href="#" ng-click="load('josh')">Josh</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2 col-sm-2 col-xs-1"></div>
-            <div class="col-md-8 col-sm-8 col-xs-10">
-                <h1>Overwatch SR Tracker</h1>
-                <div class="form-group">
-                    <label for="userSel">User:</label>
-                    <select class="form-control" ng-model="user" id="userSel" ng-change="load()">
-                        <option ng-repeat="user in users" value="{{user}}">{{user}}</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item</a></li>
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+            <li><a href="">More navigation</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+          </ul>
         </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
 
-        <div class="row">
-            <div class="col-md-2 col-sm-2 col-xs-1"></div>
-            <div class="col-md-8 col-sm-8 col-xs-10">
-                <div class="form-group">
-                    <label for="typeSel">Type:</label>
-                    <select class="form-control" ng-model="gameType" id="typeSel">
-                        <option ng-repeat="type in types" value="{{type}}">{{type}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="mapSel">Map:</label>
-                    <select class="form-control" ng-model="gameMap" id="mapSel">
-                        <option ng-repeat="map in maps[gameType]" value="{{map}}">{{map}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="charSel">Characters:</label>
-                    <select class="form-control" multiple ng-model="gameCharacters" id="charSel">
-                        <option ng-repeat="character in characters" value="{{character}}">{{character}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="resSel">Win/Loss/Draw:</label>
-                    <select class="form-control" ng-model="gameResult" id="resSel">
-                        <option value="Win">Win</option>
-                        <option value="Loss">Loss</option>
-                        <option value="Draw">Draw</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="srSel">Post Game SR:</label>
-                    <input type="number" ng-model="gameSR" id="srSel">
-                </div>
-                <div class="form-group">
-                    <label for="notesSel">Notes:</label>
-                    <input type="text" ng-model="gameNotes" id="notesSel">
-                </div>
-                <div>
-                    <button class="btn btn-default" ng-click="addEntry()">Add Entry</button>
-                </div>
+            <h2 class="sub-header">Enter Result</h2>
+            <div class="form-entry">
+                <label for="typeSel">Type:</label>
+                <select class="form-control" ng-model="gameType" id="typeSel" required autofocus>
+                    <option ng-repeat="type in types" value="{{type}}">{{type}}</option>
+                </select>
+                <label for="mapSel">Map:</label>
+                <select class="form-control" ng-model="gameMap" id="mapSel" required>
+                    <option ng-repeat="map in maps[gameType]" value="{{map}}">{{map}}</option>
+                </select>
+                <label for="charSel">Characters:</label>
+                <select class="form-control" multiple ng-model="gameCharacters" id="charSel" required>
+                    <option ng-repeat="character in characters" value="{{character}}">{{character}}</option>
+                </select>
+                <label for="resSel">Win/Loss/Draw:</label>
+                <select class="form-control" ng-model="gameResult" id="resSel" required>
+                    <option value="Win">Win</option>
+                    <option value="Loss">Loss</option>
+                    <option value="Draw">Draw</option>
+                </select>
+                <label for="srSel">Post Game SR:</label>
+                <input type="number" ng-model="gameSR" id="srSel" required>
+                <label for="notesSel">Notes:</label>
+                <input type="text" ng-model="gameNotes" id="notesSel" required>
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="addEntry()">Add Result</button>
             </div>
-            <div class="col-md-2 col-sm-2 col-xs-1"></div>
-        </div>
+          <h2 class="sub-header">Entry Table</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Game Type</th>
+                    <th>Map</th>
+                    <th>Characters</th>
+                    <th>Result</th>
+                    <th>SR Change</th>
+                    <th>Post Game SR</th>
+                    <th>Notes
+                    </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="entry in entries" ng-hide="$first">
+                    <td>
+                        {{entry.time | date:'MM-dd-yyyy HH:mm'}}
+                    </td>
+                    <td>
+                        {{entry.type}}
+                    </td>
+                    <td>
+                        {{entry.map}}
+                    </td>
+                    <td>
+                        {{entry.characters|arrayToList}}
+                    </td>
+                    <td>
+                        {{entry.result}}
+                    </td>
+                    <td>
+                        {{entry.sr_change}}
+                    </td>
+                    <td>
+                        {{entry.sr}}
+                    </td>
+                    <td>
+                        {{entry.notes}}
+                    </td>
+              </tbody>
+            </table>
+          </div>
 
-        <div class="row" ng-show="showEntries">
-            <div class="col-md-2 col-sm-2 col-xs-1"></div>
-            <div class="col-md-8 col-sm-8 col-xs-10">
-                <table>
-                    <tr>
-                        <th>
-                            Date
-                        </th>
-                        <th>
-                            Game Type
-                        </th>
-                        <th>
-                            Map
-                        </th>
-                        <th>
-                            Characters
-                        </th>
-                        <th>
-                            Result
-                        </th>
-                        <th>
-                            SR Change
-                        </th>
-                        <th>
-                            Post Game SR
-                        </th>
-                        <th>
-                            Notes
-                        </th>
-                    </tr>
-                    <tr ng-repeat="entry in entries" ng-hide="$first">
-                        <td>
-                            {{entry.time | date:'MM-dd-yyyy HH:mm'}}
-                        </td>
-                        <td>
-                            {{entry.type}}
-                        </td>
-                        <td>
-                            {{entry.map}}
-                        </td>
-                        <td>
-                            {{entry.characters|arrayToList}}
-                        </td>
-                        <td>
-                            {{entry.result}}
-                        </td>
-                        <td>
-                            {{entry.sr_change}}
-                        </td>
-                        <td>
-                            {{entry.sr}}
-                        </td>
-                        <td>
-                            {{entry.notes}}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+            <h2 class="sub-header">SR Graph</h2>
+            <svg width="960" height="500"></svg>
         </div>
-
+      </div>
     </div>
 
-<svg width="960" height="500"></svg>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="/static/libraries/angular/angular.min.js"></script>
+    <script src="/static/libraries/d3/d3.js"></script>
+    <script src="/static/js/app.js"></script>
+
 </body>
 </html>

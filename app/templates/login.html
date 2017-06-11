@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Overwatch SR Tracker</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/static/css/app.css">
+
+    <style>
+        body {
+            text-align: center;
+        }
+
+        path {
+            stroke: steelblue;
+            stroke-width: 1;
+            fill: none;
+        }
+
+        .axis {
+          shape-rendering: crispEdges;
+        }
+
+        .x.axis line {
+          stroke: lightgrey;
+        }
+
+        .x.axis .minor {
+          stroke-opacity: .5;
+        }
+
+        .x.axis path {
+          display: none;
+        }
+
+        .y.axis line, .y.axis path {
+          fill: none;
+          stroke: #000;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-radius: 5px;
+            width: 50%;
+            margin: 0px auto;
+            float: none;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        .form-signin {
+          max-width: 330px;
+          padding: 15px;
+          margin: 0 auto;
+        }
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+          margin-bottom: 10px;
+        }
+        .form-signin .checkbox {
+          font-weight: normal;
+        }
+        .form-signin .form-control {
+          position: relative;
+          height: auto;
+          -webkit-box-sizing: border-box;
+             -moz-box-sizing: border-box;
+                  box-sizing: border-box;
+          padding: 10px;
+          font-size: 16px;
+        }
+        .form-signin .form-control:focus {
+          z-index: 2;
+        }
+        .form-signin input[type="email"] {
+          margin-bottom: -1px;
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+          margin-bottom: 10px;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+    </style>
+</head>
+<body ng-app="owsr" ng-controller="loginController">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Overwatch SR Tracker</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">User</label>
+        <input type="text" ng-model="user" id="inputEmail" class="form-control" placeholder="User" required autofocus>
+          <label for="inputSR" class="sr-only">SR</label>
+        <input type="text" ng-hide='signin' ng-model="sr" id="inputSR" class="form-control" placeholder="SR" required>
+        <!--label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div-->
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="signin()" ng-show="signin">Sign in</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="register()" ng-hide="signin">Register</button>
+      </form>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="/static/libraries/angular/angular.min.js"></script>
+    <script src="/static/libraries/angular-cookies/angular-cookies.min.js"></script>
+
+    <script src="/static/libraries/d3/d3.js"></script>
+    <script src="/static/js/app.js"></script>
+
+</body>
+</html>

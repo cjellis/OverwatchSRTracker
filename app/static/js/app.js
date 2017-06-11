@@ -1,4 +1,4 @@
-var owsr = angular.module('owsr', [])
+var owsr = angular.module('owsr', ['ngCookies'])
     .config( [
         '$compileProvider',
         function( $compileProvider )
@@ -12,7 +12,7 @@ var owsr = angular.module('owsr', [])
             return arr.join(', ');
         }
     })
-    .controller('mainController', ['$scope', '$http', function ($scope, $http) {
+    .controller('mainController', ['$scope', '$http', '$cookies', '$rootScope', '$window', function ($scope, $http, $cookies, $rootScope, $window) {
         $scope.page = 1;
         $scope.users = ['craig', 'josh'];
         $scope.types = ['Assault', 'Escort', 'Hybrid', 'Control'];
@@ -121,7 +121,7 @@ var owsr = angular.module('owsr', [])
 
                   g.append("g")
                       .attr("transform", "translate(0," + height + ")")
-                      .call(d3.axisBottom(x))
+                      .call(d3.axisBottom(x).ticks(sr.length - 1))
                     .select(".domain")
                       .remove();
 
@@ -170,4 +170,73 @@ var owsr = angular.module('owsr', [])
 
               $scope.jsonUrl = 'data:' + jsonData;
         };
+
+        $scope.signout = function () {
+            $cookies.remove('login');
+            $window.location.href = '/';
+        };
+
+        $scope.checkLoggedIn = function () {
+            $rootScope.login = angular.fromJson($cookies.getObject('login'));
+            if(typeof $rootScope.login !== 'undefined') {
+                $scope.user = $rootScope.login.user;
+                $scope.load($scope.user);
+            } else {
+                $window.location.href = '/';
+            }
+        };
+        $scope.checkLoggedIn();
+    }])
+    .controller('loginController', ['$scope', '$http', '$cookies', '$rootScope', '$window', function ($scope, $http, $cookies, $rootScope, $window) {
+        $scope.signin = true;
+
+        $scope.signin = function () {
+            $http({
+                method: 'POST',
+                url: '/login',
+                data: {
+                    "user": $scope.user
+                }
+            }).then(function successCallback(response) {
+                $rootScope.user = $scope.user;
+                $cookies.putObject("login",
+                    {
+                        'user': $scope.user
+                    }
+                );
+                $window.location.href = '/home';
+            }, function errorCallback(response) {
+                $scope.signin = false;
+            });
+        };
+
+        $scope.register = function () {
+            $http({
+                method: 'POST',
+                url: '/register',
+                data: {
+                    "user": $scope.user,
+                    "sr": $scope.sr
+                }
+            }).then(function successCallback(response) {
+                $rootScope.user = $scope.user;
+                $cookies.putObject("login",
+                    {
+                        'user': $scope.user
+                    }
+                );
+                $window.location.href = '/home';
+            }, function errorCallback(response) {
+                $scope.failedRegister = true;
+            });
+        };
+
+        $scope.checkLoggedIn = function () {
+            $rootScope.login = angular.fromJson($cookies.getObject('login'));
+            if(typeof $rootScope.login !== 'undefined') {
+                $rootScope.user = $rootScope.login['user'];
+                $window.location.href = '/home';
+            }
+        };
+        $scope.checkLoggedIn();
     }]);

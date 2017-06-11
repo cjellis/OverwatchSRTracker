@@ -21,6 +21,22 @@ def add_entry(user, type, map, characters, result, sr, notes, time):
 
     user_data.update_one({'user': user}, {'$push': {'results': res}})
 
+
 def get_data(user):
     data = user_data.find_one({'user': user}, {"_id": 0})
     return data
+
+
+def add_user(user, sr):
+    res = {
+        'type': '',
+        'map': '',
+        "characters": [],
+        "result": '',
+        "sr": int(sr),
+        "sr_change": 0,
+        "notes": '',
+        "time": ''
+    }
+
+    user_data.insert({'user': user, 'results': [res]})

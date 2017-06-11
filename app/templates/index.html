@@ -179,8 +179,13 @@
                 </div>
             <div ng-show="page == 4">
             <h1 class="page-header">Export</h1>
-                <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="exportData()">Set Up Export</button>
-                <a href="{{jsonUrl}}" download="results.json" ng-show="jsonUrl">Download</a>
+                <div ng-hide="user">
+                    Please select a user!
+                </div>
+                <div ng-show="user">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="exportData()">Set Up Export</button>
+                    <a href="{{jsonUrl}}" download="results.json" ng-show="jsonUrl">Download</a>
+                    </div>
                 </div>
         </div>
       </div>

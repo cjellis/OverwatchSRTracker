@@ -9,10 +9,11 @@ res = {
     'map': '',
     "characters": [],
     "result": '',
-    "sr": 1780,
+    "sr": 1800,
     "sr_change": 0,
     "notes": '',
     "time": ''
 }
 
+user_data.insert({'user': 'josh', 'results': [res]})
 user_data.insert({'user': 'craig', 'results': [res]})
